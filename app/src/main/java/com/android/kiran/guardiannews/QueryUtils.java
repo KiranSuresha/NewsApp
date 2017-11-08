@@ -4,9 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,14 +14,13 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class QueryUtils {
 
   private static final String LOG_TAG = QueryUtils.class.getName();
-  private static Context mContext;
-
-  // News API keys
   private static final String API_KEY_RESPONSE = "response";
   private static final String API_KEY_RESULTS = "results";
   private static final String API_KEY_SECTION = "sectionName";
@@ -32,26 +28,17 @@ public class QueryUtils {
   private static final String API_KEY_TITLE = "webTitle";
   private static final String API_KEY_WEBURL = "webUrl";
   private static final String API_KEY_TAGS = "tags";
+  private static Context mContext;
 
-
-  /**
-   * This is a private constructor and only meant to hold static variables and methods,
-   * which can be accessed directly from the class name Utils
-   */
   private QueryUtils() {
   }
 
-  /**
-   * Query the URL and return a list of {@link News} objects.
-   */
   public static List<News> fetchNewsItems(String requestUrl, Context context) {
 
     mContext = context;
 
-    // Create URL object
     URL url = createUrl(requestUrl);
 
-    // Perform HTTP request to the URL and receive a JSON response back
     String jsonResponse = null;
     try {
       jsonResponse = makeHttpRequest(url);
@@ -59,7 +46,6 @@ public class QueryUtils {
       Log.e(LOG_TAG, mContext.getString(R.string.exception_http_request), e);
     }
 
-    // Extract relevant fields from the JSON response and create a list of {@link NewsItem}s
     List<News> newsItems = extractFeatureFromJson(jsonResponse);
 
     try {
@@ -67,14 +53,9 @@ public class QueryUtils {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
-    // Return the list of {@link newsItems}
     return newsItems;
   }
 
-  /**
-   * This method returns new URL object from the given string URL
-   */
   private static URL createUrl(String stringUrl) {
     URL url = null;
     try {
@@ -85,13 +66,9 @@ public class QueryUtils {
     return url;
   }
 
-  /**
-   * Make an HTTP request to the given URL and return a String as the response.
-   */
   private static String makeHttpRequest(URL url) throws IOException {
     String jsonResponse = "";
 
-    // If the URL is null, then return early
     if (url == null) {
       return jsonResponse;
     }
@@ -105,13 +82,12 @@ public class QueryUtils {
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
 
-      // If the request was successful (response code 200),
-      // then read the input stream and parse the response.
       if (urlConnection.getResponseCode() == 200) {
         inputStream = urlConnection.getInputStream();
         jsonResponse = readFromStream(inputStream);
       } else {
-        Log.e(LOG_TAG, mContext.getString(R.string.exception_resp_code) + urlConnection.getResponseCode());
+        Log.e(LOG_TAG,
+            mContext.getString(R.string.exception_resp_code) + urlConnection.getResponseCode());
       }
     } catch (IOException e) {
       Log.e(LOG_TAG, mContext.getString(R.string.exception_json_results), e);
@@ -126,14 +102,11 @@ public class QueryUtils {
     return jsonResponse;
   }
 
-  /**
-   * Convert the {@link InputStream} into a String which contains the
-   * whole JSON response from the server.
-   */
   private static String readFromStream(InputStream inputStream) throws IOException {
     StringBuilder output = new StringBuilder();
     if (inputStream != null) {
-      InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+      InputStreamReader inputStreamReader =
+          new InputStreamReader(inputStream, Charset.forName("UTF-8"));
       BufferedReader reader = new BufferedReader(inputStreamReader);
       String line = reader.readLine();
       while (line != null) {
@@ -144,33 +117,27 @@ public class QueryUtils {
     return output.toString();
   }
 
-  /**
-   * Return a list of {@link News} objects retrieved from parsing a JSON response.
-   */
   private static List<News> extractFeatureFromJson(String newsJSON) {
 
-    /** If the JSON string is empty or null, then return early. */
     if (TextUtils.isEmpty(newsJSON)) {
       return null;
     }
 
-    /** Create an empty ArrayList used to add news items */
     List<News> newsItems = new ArrayList<>();
 
     try {
 
-      JSONObject baseJsonResponse;            // JSON Object for the data retrieved from API request
-      JSONObject jsonResults;                 // JSON results fetched
-      JSONArray newsArray;                    // Array of News Items
-      JSONObject currentNewsItem;             // JSON object for current news item in the newsArray
-      String newsTitle = "";                  // News Title
-      String newsSection = "";                // News Section
-      String newsDate = "";                   // Published Date
-      String newsUrl = "";                    // Web URL of the news item
-      JSONArray tagsArray;                    // Array of tags
-      JSONObject newsTag;                     // JSON Object for news tags - first element in tagsArray
-      String newsAuthor = "";                 // Author of the news item - obtained from newsTags
-
+      JSONObject baseJsonResponse;
+      JSONObject jsonResults;
+      JSONArray newsArray;
+      JSONObject currentNewsItem;
+      String newsTitle = "";
+      String newsSection = "";
+      String newsDate = "";
+      String newsUrl = "";
+      JSONArray tagsArray;
+      JSONObject newsTag;
+      String newsAuthor = "";
 
       baseJsonResponse = new JSONObject(newsJSON);
       jsonResults = baseJsonResponse.getJSONObject(API_KEY_RESPONSE);
@@ -211,45 +178,26 @@ public class QueryUtils {
             }
           }
 
-          // Create a new {@link NewsItem} object with parameters obtained from JSON response
-          News newsItem = new News(
-              newsTitle,
-              newsSection,
-              newsDate,
-              newsAuthor,
-              newsUrl
-          );
+          News newsItem = new News(newsTitle, newsSection, newsDate, newsAuthor, newsUrl);
 
-          // Add the new {@link NewsItem} object to the list of news items
           newsItems.add(newsItem);
         }
       }
-
     } catch (JSONException e) {
       Log.e(LOG_TAG, mContext.getString(R.string.exception_json_results), e);
     }
-
-    // Return the list of newsItems
     return newsItems;
   }
 
-  /**
-   * Method to prepare the final URL to be used to fetch data
-   * @param url
-   * @return final url with all parameters appended
-   */
   private static String prepareUrl(String url) {
     Uri baseUri = Uri.parse(url);
     Uri.Builder uriBuilder = baseUri.buildUpon();
 
-    uriBuilder.appendQueryParameter(
-        mContext.getString(R.string.tags_label),
+    uriBuilder.appendQueryParameter(mContext.getString(R.string.tags_label),
         mContext.getString(R.string.tags_value));
-    uriBuilder.appendQueryParameter(
-        mContext.getString(R.string.reference_label),
+    uriBuilder.appendQueryParameter(mContext.getString(R.string.reference_label),
         mContext.getString(R.string.reference_value));
-    uriBuilder.appendQueryParameter(
-        mContext.getString(R.string.api_label),
+    uriBuilder.appendQueryParameter(mContext.getString(R.string.api_label),
         mContext.getString(R.string.api_value));
 
     Log.i(LOG_TAG, "Query URL => " + uriBuilder.toString());

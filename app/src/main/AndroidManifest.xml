@@ -16,12 +16,26 @@
         android:name=".MainActivity"
         android:label="Guardian News"
         android:theme="@style/AppTheme.NoActionBar">
+
+    </activity>
+    <activity
+        android:name=".AboutPageActivity"
+        android:label="About"
+        android:parentActivityName=".MainActivity">
+
+    </activity>
+
+    <activity
+        android:name=".SplashActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/SplashScreen">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
     <meta-data
         android:name="preloaded_fonts"
         android:resource="@array/preloaded_fonts" />

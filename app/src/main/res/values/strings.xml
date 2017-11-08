@@ -31,6 +31,12 @@
   <string name="reference_value">author</string>
   <string name="api_label">api-key</string>
   <string name="api_value">test</string>
+  <string name="about">About</string>
+  <string name="guardian_license">Guardian License</string>
+  <string name="open_licence_terms_link">https://syndication.theguardian.com/open-licence-terms/</string>
+  <string name="contact">Contact</string>
+  <string name="mail_link">sureshakiran9@gmail.com</string>
+  <string name="linkedin_link">https://www.linkedin.com/in/kiran-suresha-a47a1978/</string>
 
 
 </resources>
