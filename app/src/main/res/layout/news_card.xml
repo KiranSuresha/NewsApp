@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="4dp"
+    >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:id="@+id/text_news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eagle_lake"
+        android:maxLines="2"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        tools:text="Investigators probe New York attack suspect's communications while Trump calls for death penalty"
+        />
+
+    <TextView
+        android:id="@+id/text_news_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/finger_paint"
+        android:maxLines="2"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        tools:text="Google"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:textColor="@android:color/black"
+          android:id="@+id/text_news_date"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:maxLines="1"
+          android:padding="8dp"
+          android:textSize="12sp"
+          tools:text="June 30, 2017"
+          />
+
+      <TextView
+          android:textColor="@color/colorPrimaryDark"
+          android:id="@+id/text_news_section"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:ellipsize="end"
+          android:gravity="end"
+          android:maxLines="1"
+          android:padding="8dp"
+          android:textSize="12sp"
+          tools:text="Technology"
+          />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</android.support.v7.widget.CardView>

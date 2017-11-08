@@ -1,0 +1,36 @@
+<resources>
+  <string name="app_name">Guardian News</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
+
+  <string name="menu_home">Home</string>
+  <string name="menu_business">Business</string>
+  <string name="menu_education">Education</string>
+  <string name="menu_environment">Environment</string>
+  <string name="menu_fashion">Fashion</string>
+  <string name="menu_film">Film</string>
+  <string name="menu_money">Money</string>
+  <string name="menu_politics">Politics</string>
+  <string name="menu_sport">Sport</string>
+  <string name="menu_technology">Technology</string>
+  <string name="menu_weather">Weather</string>
+  <string name="menu_world">World</string>
+
+  <string name="info_no_news">No news exist for your search</string>
+
+  <string name="error_no_connection">Unfortunately your device doesn\'t have any internet connection.</string>
+  <string name="exception_http_request">Problem making the HTTP request</string>
+  <string name="exception_url_invalid">Problem with the URL string</string>
+  <string name="exception_resp_code">Error response code</string>
+  <string name="exception_json_results">Problem retrieving JSON results</string>
+  <string name="exception_date_format">Problem formatting input date</string>
+
+  <string name="tags_label">show-tags</string>
+  <string name="tags_value">contributor</string>
+  <string name="reference_label">show-references</string>
+  <string name="reference_value">author</string>
+  <string name="api_label">api-key</string>
+  <string name="api_value">test</string>
+
+
+</resources>
